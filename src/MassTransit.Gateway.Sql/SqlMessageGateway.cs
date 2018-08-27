@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using MassTransit.Gateway.MessageFactories;
 using MassTransit.Gateway.Sql.MessageFactories;
-using MassTransit.SqlGateway;
 
 namespace MassTransit.Gateway.Sql
 {

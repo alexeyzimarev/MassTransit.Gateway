@@ -1,6 +1,5 @@
 using System.Data;
 using MassTransit.Gateway.MessageFactories;
-using MassTransit.SqlGateway;
 
 namespace MassTransit.Gateway.Sql.MessageFactories
 {

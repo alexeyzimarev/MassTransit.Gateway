@@ -1,6 +1,6 @@
 using System;
 
-namespace MassTransit.SqlGateway
+namespace MassTransit.Gateway
 {
     public class MessageEnvelope
     {
