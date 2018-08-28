@@ -2,7 +2,6 @@
 using System.Data.SqlClient;
 using System.Linq;
 using MassTransit.Gateway.Sql.Database;
-using MassTransit.Gateway.Sql.Dynamics;
 
 namespace MassTransit.Gateway.Sample
 {
@@ -14,9 +13,9 @@ namespace MassTransit.Gateway.Sample
 
             var schema = DbSchemaReader.ReadTableSchema(() => new SqlConnection(connectionString), "dbo.GpsTrip");
 
-            var properties = schema.Select(PropertyDefinitionFactory.FromDbColumnInfo).ToArray();
+//            var properties = schema.Select(PropertyDefinitionFactory.FromDbColumnInfo).ToArray();
 
-            Console.WriteLine(properties.Length);
+//            Console.WriteLine(properties.Length);
         }
     }
 }

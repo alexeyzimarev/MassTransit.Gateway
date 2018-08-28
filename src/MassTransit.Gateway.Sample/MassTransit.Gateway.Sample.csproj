@@ -6,12 +6,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\MassTransit.Gateway\MassTransit.Gateway.csproj"/>
-        <ProjectReference Include="..\MassTransit.Gateway.Sql\MassTransit.Gateway.Sql.csproj"/>
+        <ProjectReference Include="..\MassTransit.Gateway.SqlServer\MassTransit.Gateway.SqlServer.csproj" />
+        <ProjectReference Include="..\MassTransit.Gateway\MassTransit.Gateway.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="System.Data.SqlClient" Version="4.5.1"/>
+        <PackageReference Include="System.Data.SqlClient" Version="4.5.1" />
     </ItemGroup>
 
 </Project>

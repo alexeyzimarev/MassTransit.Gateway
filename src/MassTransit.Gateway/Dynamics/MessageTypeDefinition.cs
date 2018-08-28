@@ -4,8 +4,14 @@ namespace MassTransit.Gateway.Dynamics
 {
     public class MessageTypeDefinition
     {
-        public string ClassName { get; set; }
-        public PropertyDefinition[] PropertyDefinitions { get; set; }
+        public MessageTypeDefinition(string className, PropertyDefinition[] propertyDefinitions)
+        {
+            ClassName = className;
+            PropertyDefinitions = propertyDefinitions;
+        }
+
+        public string ClassName { get;  }
+        public PropertyDefinition[] PropertyDefinitions { get;  }
     }
 
     public class PropertyDefinition
@@ -18,6 +24,5 @@ namespace MassTransit.Gateway.Dynamics
 
         public string Name { get; set; }
         public Type Type { get; set; }
-
     }
 }

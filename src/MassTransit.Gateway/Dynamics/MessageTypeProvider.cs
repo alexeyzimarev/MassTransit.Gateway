@@ -4,22 +4,16 @@ using System.Reflection.Emit;
 
 namespace MassTransit.Gateway.Dynamics
 {
-    public class MessageTypeProvider
+    public static class MessageTypeProvider
     {
-        private readonly ModuleBuilder _moduleBuilder;
-
-        public MessageTypeProvider()
+        public static Type BuildMessageType(MessageTypeDefinition messageTypeDefinition)
         {
             var assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(
                 new AssemblyName(Guid.NewGuid().ToString()),
                 AssemblyBuilderAccess.Run);
 
-            _moduleBuilder = assemblyBuilder.DefineDynamicModule("DynamicModule");
-        }
-
-        public Type BuildMessageType(MessageTypeDefinition messageTypeDefinition)
-        {
-            var typeBuilder = _moduleBuilder.DefineType(messageTypeDefinition.ClassName, TypeAttributes.Public);
+            var moduleBuilder = assemblyBuilder.DefineDynamicModule("DynamicModule");
+            var typeBuilder = moduleBuilder.DefineType(messageTypeDefinition.ClassName, TypeAttributes.Public);
 
             foreach (var propertyDefinition in messageTypeDefinition.PropertyDefinitions)
             {
