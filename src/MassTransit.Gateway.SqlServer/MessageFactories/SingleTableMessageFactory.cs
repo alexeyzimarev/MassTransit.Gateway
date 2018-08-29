@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using MassTransit.Gateway.Dynamics;
 using MassTransit.Gateway.MessageFactories;
-using MassTransit.Gateway.Sql.Database;
+using MassTransit.Gateway.SqlServer.Database;
 
-namespace MassTransit.Gateway.Sql.MessageFactories
+namespace MassTransit.Gateway.SqlServer.MessageFactories
 {
     public class SingleTableMessageFactory : IMessageFactory
     {

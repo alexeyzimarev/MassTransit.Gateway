@@ -6,6 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="LibLog" Version="5.0.2" />
       <PackageReference Include="MassTransit" Version="5.1.4" />
       <PackageReference Include="System.Reactive.Core" Version="4.1.0" />
     </ItemGroup>

@@ -6,7 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using MassTransit.Gateway.Gateways;
 using MassTransit.Gateway.MessageFactories;
-using MassTransit.Gateway.Sql.MessageFactories;
+using MassTransit.Gateway.SqlServer;
+using MassTransit.Gateway.SqlServer.MessageFactories;
 using MassTransit.Pipeline.Observables;
 
 namespace MassTransit.Gateway.Sql

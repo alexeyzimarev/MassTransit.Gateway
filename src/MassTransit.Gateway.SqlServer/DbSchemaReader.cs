@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MassTransit.Gateway.Sql.Database
+namespace MassTransit.Gateway.SqlServer.Database
 {
     public class DbSchemaReader
     {

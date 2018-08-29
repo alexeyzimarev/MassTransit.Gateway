@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using MassTransit.Gateway.Gateways;
 using MassTransit.Gateway.MessageFactories;
 
-namespace MassTransit.Gateway.Sql
+namespace MassTransit.Gateway.SqlServer
 {
     public class SqlServerMessageTablePoller : IMessagePoller
     {
@@ -18,7 +18,7 @@ namespace MassTransit.Gateway.Sql
             Func<SqlConnection> connectionFactory,
             IMessageFactory messageFactory)
         {
-            _commandText = string.Format(ReadAndDelete, tableName);
+            _commandText = string.Format(SqlConstants.DequeueQuery, tableName);
             _connectionFactory = connectionFactory;
             _messageFactory = messageFactory;
         }
@@ -45,8 +45,5 @@ namespace MassTransit.Gateway.Sql
             return _messageFactory.CreateMessage(table.Rows[0]);
         }
 
-        private const string ReadAndDelete = @"
-WITH data AS (SELECT TOP(1) * FROM {0} WITH (UPDLOCK, READPAST, ROWLOCK) ORDER BY RowVersion)
-DELETE FROM data OUTPUT DELETED.*";
     }
 }
