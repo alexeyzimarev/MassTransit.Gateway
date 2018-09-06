@@ -10,8 +10,8 @@ namespace MassTransit.Gateway.SqlServer
 {
     public class SqlServerMessageTablePoller : IMessagePoller
     {
-        private string _commandText;
-        private Func<SqlConnection> _connectionFactory;
+        private readonly string _commandText;
+        private readonly Func<SqlConnection> _connectionFactory;
         private readonly IMessageFactory _messageFactory;
 
         internal SqlServerMessageTablePoller(string tableName,

@@ -5,9 +5,9 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MassTransit.Gateway.SqlServer.Database
+namespace MassTransit.Gateway.SqlServer
 {
-    public class DbSchemaReader
+    public static class DbSchemaReader
     {
         public static async Task<IEnumerable<DbColumnInfo>> ReadTableSchema(Func<SqlConnection> connectionFactory,
             string tableName)

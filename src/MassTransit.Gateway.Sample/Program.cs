@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.Linq;
-using MassTransit.Gateway.SqlServer.Database;
+using MassTransit.Gateway.SqlServer;
 
 namespace MassTransit.Gateway.Sample
 {

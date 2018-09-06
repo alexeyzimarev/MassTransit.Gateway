@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Concurrent;
+using System.Net;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -8,6 +10,9 @@ namespace MassTransit.Gateway.Dynamics
     {
         public static Type BuildMessageType(MessageTypeDefinition messageTypeDefinition)
         {
+            if (Cache.ContainsKey(messageTypeDefinition.ClassName))
+                return Cache[messageTypeDefinition.ClassName];
+
             var assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(
                 new AssemblyName(Guid.NewGuid().ToString()),
                 AssemblyBuilderAccess.Run);
@@ -20,8 +25,13 @@ namespace MassTransit.Gateway.Dynamics
                 AddProperty(typeBuilder, propertyDefinition.Name, propertyDefinition.Type);
             }
 
-            return typeBuilder.CreateTypeInfo();
+            var typeInfo = typeBuilder.CreateTypeInfo();
+            Cache[messageTypeDefinition.ClassName] = typeInfo;
+            return typeInfo;
         }
+
+        public static Type TryGetType(string className) =>
+            Cache.ContainsKey(className) ? Cache[className] : null;
 
         private static void AddProperty(TypeBuilder typeBuilder, string propertyName, Type propertyType)
         {
@@ -33,7 +43,7 @@ namespace MassTransit.Gateway.Dynamics
             const MethodAttributes getSetAttr = MethodAttributes.Public | MethodAttributes.SpecialName |
                                                 MethodAttributes.HideBySig;
 
-            var getterBuilder=
+            var getterBuilder =
                 typeBuilder.DefineMethod("get_" + propertyName,
                     getSetAttr,
                     propertyType,
@@ -61,5 +71,8 @@ namespace MassTransit.Gateway.Dynamics
             propertyBuilder.SetGetMethod(getterBuilder);
             propertyBuilder.SetSetMethod(setterBuilder);
         }
+
+        internal static readonly ConcurrentDictionary<string, Type> Cache =
+            new ConcurrentDictionary<string, Type>();
     }
 }

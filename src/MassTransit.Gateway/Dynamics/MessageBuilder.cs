@@ -1,17 +1,18 @@
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace MassTransit.Gateway.Dynamics
 {
     public static class MessageBuilder
     {
-        public static object CreateMessage(Type type, PropertyValue[] properties)
+        public static object CreateMessage(Type type, IEnumerable<PropertyValue> properties)
         {
             var message = Activator.CreateInstance(type);
             foreach (var property in properties)
             {
                 type.InvokeMember(property.Name, BindingFlags.SetProperty, null, message,
-                    new object[] {property.Value});
+                    new[] {property.Value});
             }
 
             return message;
