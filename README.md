@@ -1,7 +1,7 @@
 # MassTransit Legacy Gateway
 
 Very often we create new shiny microservices and integrate them using messaging, 
-but there's nearly always an elephant in the room called _the legacy system_.
+but there's nearly always an elephant in the room - the _legacy system_.
 
 If we decide to use a [Strangler Application](https://www.martinfowler.com/bliki/StranglerApplication.html)
 pattern, we need to be able to integrate the legacy system with our new microservices
