@@ -37,13 +37,17 @@ derived from the SQL column type.
 Using this method is easy, since all you need to do is insert new rows to that
 table, using the vanilla SQL syntax.
 
+The table **must** have a field called `RowNumber` of type`int` that is also a primary key.
+
+
 ## Message JSON queue table
 
 This method uses one table for messages of any type. Such table must have three 
 columns:
- - `Timestamp` (type `timestamp`)
+ - `RowNumber` (type `int`)
+ - `Timestamp` (type `datetime`)
  - `MessageType` (type `varchar`)
- - `Payload` (type `varchar` or `nvarchar`)
+ - `Payload` (type `text`)
  
 The `MessageType` column must contain the full CRL type of your message that
 your consumers are subscribing to.
@@ -71,6 +75,27 @@ You can add the gateway to MassTransit bus configuration using extension methods
 
 ### Table per message type
 
+Example SQL statement:
+```sql
+CREATE TABLE [dbo].[CustomerNameChangedQueue] (
+  [RowNumber] int PRIMARY KEY IDENTITY,
+  [CustomerId] int,
+  [CustomerName] varchar(200),
+)
+```
+
+When you put new rows into this table, it will publish messages like:
+
+```json
+{
+  "CustomerId": 10,
+  "CustomerName": "Apple"
+}
+```
+
+You need to add the gateway like this, where you specify the full
+CLR type name for the event, which your consumers are subscribed to:
+
 ```csharp
 var bus = Bus.Factory.CreateUsingRabbitMq(cfg =>
 {
@@ -89,6 +114,19 @@ var bus = Bus.Factory.CreateUsingRabbitMq(cfg =>
 ```
 
 ### Universal JSON queue table
+
+Here is the sample SQL statement:
+
+```sql
+CREATE TABLE [dbo].[JsonQueue] (
+  [RowNumber] int PRIMARY KEY IDENTITY,
+  [MessageType] varchar(200),
+  [Timestamp] datetime default CURRENT_TIMESTAMP,
+  [Payload] text
+)
+```
+ 
+You register the gateway differently here, no message type is needed:
 
 ```csharp
 var bus = Bus.Factory.CreateUsingRabbitMq(cfg =>
