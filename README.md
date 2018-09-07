@@ -39,7 +39,6 @@ table, using the vanilla SQL syntax.
 
 The table **must** have a field called `RowNumber` of type`int` that is also a primary key.
 
-
 ## Message JSON queue table
 
 This method uses one table for messages of any type. Such table must have three 
@@ -53,7 +52,7 @@ The `MessageType` column must contain the full CRL type of your message that
 your consumers are subscribing to.
 
 The content of your message must be in the `Payload` column, formatted as a 
-valid JSON.
+valid JSON. The JSON object must be flat and can't contain complex objects or arrays.
 
 For example:
 
