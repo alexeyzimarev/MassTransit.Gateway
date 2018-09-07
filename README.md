@@ -71,8 +71,6 @@ Currently, there is a core project and MS SQL Server support are implemented.
 
 ## Microsoft SQL Server
 
-![NuGet](https://img.shields.io/nuget/v/MassTransit.Gateway.SqlServer.svg)
-
 You can add the gateway to MassTransit bus configuration using extension methods.
 
 Install the NuGet [package](https://www.nuget.org/packages/MassTransit.Gateway.SqlServer)
