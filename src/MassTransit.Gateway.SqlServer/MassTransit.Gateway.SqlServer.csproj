@@ -3,15 +3,19 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <LangVersion>7.1</LangVersion>
+
+        <PackageId>MassTransit.Gateway.SqlServer</PackageId>
+        <Version>0.1.0</Version>
+        <Authors>Alexey Zimarev</Authors>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\MassTransit.Gateway\MassTransit.Gateway.csproj" />
+        <ProjectReference Include="..\MassTransit.Gateway\MassTransit.Gateway.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="LibLog" Version="5.0.2" />
-      <PackageReference Include="System.Data.SqlClient" Version="4.5.1" />
+        <PackageReference Include="LibLog" Version="5.0.2"/>
+        <PackageReference Include="System.Data.SqlClient" Version="4.5.1"/>
     </ItemGroup>
 
 </Project>
