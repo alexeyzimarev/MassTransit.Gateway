@@ -7,6 +7,10 @@
         <PackageId>MassTransit.Gateway.SqlServer</PackageId>
         <Version>0.1.0</Version>
         <Authors>Alexey Zimarev</Authors>
+        <PackageProjectUrl>https://github.com/alexeyzimarev/MassTransit.Gateway</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/alexeyzimarev/MassTransit.Gateway.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <Description>MS SQL Server to messaging gateway for MassTransit</Description>
     </PropertyGroup>
 
     <ItemGroup>

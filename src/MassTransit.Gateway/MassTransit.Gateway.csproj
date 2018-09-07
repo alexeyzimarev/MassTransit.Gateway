@@ -3,6 +3,13 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <LangVersion>7.1</LangVersion>
+
+        <Version>0.1.0</Version>
+        <Authors>Alexey Zimarev</Authors>
+        <PackageProjectUrl>https://github.com/alexeyzimarev/MassTransit.Gateway</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/alexeyzimarev/MassTransit.Gateway.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <Description>Legacy to messaging gateway for MassTransit, base package</Description>
     </PropertyGroup>
 
     <ItemGroup>
