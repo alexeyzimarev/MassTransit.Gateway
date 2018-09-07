@@ -51,6 +51,9 @@ namespace MassTransit.Gateway.SqlServer.MessageFactories
             try
             {
                 var messageClassName = row[_columnNames.MessageType].ToString();
+                if (!messageClassName.Contains("."))
+                    throw new InvalidOperationException($"Message type name {messageClassName} must include a namespace");
+
                 var payload = row[_columnNames.Payload].ToString();
                 return JsonTypeProvider.CreateMessage(messageClassName, payload);
             }
