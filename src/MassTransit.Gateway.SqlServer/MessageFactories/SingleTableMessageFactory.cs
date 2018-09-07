@@ -31,7 +31,7 @@ namespace MassTransit.Gateway.SqlServer.MessageFactories
             Log.Debug("Initializing single table queue gateway");
 
             var schema = await DbSchemaReader.ReadTableSchema(_connectionFactory, _tableName).ConfigureAwait(false);
-            _properties = schema.Select(FromDbColumnInfo).ToArray();
+            _properties = schema.Where(x => x.Name.ToLower() != "rownumber").Select(FromDbColumnInfo).ToArray();
             _messageType = MessageTypeProvider.BuildMessageType(new MessageTypeDefinition(_type, _properties));
 
             Log.Debug("Initialization complete");
@@ -39,7 +39,7 @@ namespace MassTransit.Gateway.SqlServer.MessageFactories
 
         public MessageEnvelope CreateMessage(DataRow row)
         {
-            var properties = _properties.Select((x, i) => new PropertyValue(x.Name, row[i]));
+            var properties = _properties.Select((x, i) => new PropertyValue(x.Name, row[x.Name]));
             var message = MessageBuilder.CreateMessage(_messageType, properties);
             return new MessageEnvelope(message, _messageType);
         }
