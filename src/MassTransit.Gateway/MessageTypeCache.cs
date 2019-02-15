@@ -5,7 +5,7 @@ namespace MassTransit.Gateway
 {
     public static class MessageTypeCache
     {
-        public static void AddTypeDefinition(Type type, string typeName)
+        public static void AddTypeDefinition(Type type, string typeName = null)
         {
             typeName = typeName ?? type.FullName;
 
