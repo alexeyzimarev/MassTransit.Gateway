@@ -1,14 +1,14 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MassTransit.Gateway.Dynamics;
+using MassTransit.Gateway.MessageFactories;
 using Newtonsoft.Json.Linq;
 
-namespace MassTransit.Gateway.Json
+namespace MassTransit.Gateway.Dynamics
 {
-    public static class JsonTypeProvider
+    public class DynamicMessageEnvelopeFactory : IMessageEnvelopeFactory
     {
-        public static MessageEnvelope CreateMessage(string className, string messageJson)
+        public MessageEnvelope CreateMessage(string className, string messageJson)
         {
             if (className.IsNullOrEmpty())
                 throw new ArgumentNullException(nameof(className));
@@ -17,8 +17,12 @@ namespace MassTransit.Gateway.Json
 
             var jObject = JObject.Parse(messageJson);
 
-            var messageType = MessageTypeProvider.TryGetType(className)
-                ?? BuildType(className, jObject);
+            var messageType = MessageTypeCache.TryGetType(className);
+            if (messageType == null)
+            {
+                messageType = BuildType(className, jObject);
+                MessageTypeCache.AddTypeDefinition(messageType, className);
+            }
             var properties = GetValues(jObject);
 
             return new MessageEnvelope(
@@ -26,23 +30,23 @@ namespace MassTransit.Gateway.Json
                 messageType);
         }
 
-        private static IEnumerable<PropertyValue> GetValues(JToken jObject) =>
+        private IEnumerable<PropertyValue> GetValues(JToken jObject) =>
             jObject.Children()
                 .Where(x => x.Type == JTokenType.Property)
                 .Select(x => (JProperty) x)
                 .Select(x => new PropertyValue(x.Name, ((JValue) x.Value).Value));
 
-        private static Type BuildType(string className, JToken jObject)
+        private Type BuildType(string className, JToken jObject)
         {
             var properties = jObject.Children()
                 .Where(x => x.Type == JTokenType.Property)
                 .Select(x => (JProperty) x)
                 .Select(GetPropertyDefinition);
             var definition = new MessageTypeDefinition(className, properties.ToArray());
-            return MessageTypeProvider.BuildMessageType(definition);
+            return DynamicTypeBuilder.BuildMessageType(definition);
         }
 
-        private static PropertyDefinition GetPropertyDefinition(JProperty j)
+        private PropertyDefinition GetPropertyDefinition(JProperty j)
         {
             var typeCode = ((JValue) j.Value).Type;
             Type type;

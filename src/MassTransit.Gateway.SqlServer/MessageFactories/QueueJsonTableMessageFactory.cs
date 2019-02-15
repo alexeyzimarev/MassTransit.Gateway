@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using MassTransit.Gateway.Json;
 using MassTransit.Gateway.MessageFactories;
@@ -17,20 +16,22 @@ namespace MassTransit.Gateway.SqlServer.MessageFactories
         private readonly string _tableName;
         private readonly Func<SqlConnection> _connectionFactory;
         private readonly ColumnNames _columnNames;
+        private readonly IMessageEnvelopeFactory _messageEnvelopeFactory;
 
         private static readonly ILog Log = LogProvider.For<QueueJsonTableMessageFactory>();
 
         public QueueJsonTableMessageFactory(string tableName, Func<SqlConnection> connectionFactory) :
-            this(tableName, connectionFactory, new ColumnNames())
+            this(tableName, connectionFactory, new ColumnNames(), new JsonEnvelopeMessageFactory())
         {
         }
 
         public QueueJsonTableMessageFactory(string tableName, Func<SqlConnection> connectionFactory,
-            ColumnNames columnNames)
+            ColumnNames columnNames, IMessageEnvelopeFactory messageEnvelopeFactory)
         {
             _tableName = tableName;
             _connectionFactory = connectionFactory;
             _columnNames = columnNames;
+            _messageEnvelopeFactory = messageEnvelopeFactory;
         }
 
         public async Task Initialize()
@@ -55,7 +56,7 @@ namespace MassTransit.Gateway.SqlServer.MessageFactories
                     throw new InvalidOperationException($"Message type name {messageClassName} must include a namespace");
 
                 var payload = row[_columnNames.Payload].ToString();
-                return JsonTypeProvider.CreateMessage(messageClassName, payload);
+                return _messageEnvelopeFactory.CreateMessage(messageClassName, payload);
             }
             catch (Exception e)
             {

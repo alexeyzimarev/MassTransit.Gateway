@@ -32,7 +32,7 @@ namespace MassTransit.Gateway.SqlServer.MessageFactories
 
             var schema = await DbSchemaReader.ReadTableSchema(_connectionFactory, _tableName).ConfigureAwait(false);
             _properties = schema.Where(x => x.Name.ToLower() != "rownumber").Select(FromDbColumnInfo).ToArray();
-            _messageType = MessageTypeProvider.BuildMessageType(new MessageTypeDefinition(_type, _properties));
+            _messageType = DynamicTypeBuilder.BuildMessageType(new MessageTypeDefinition(_type, _properties));
 
             Log.Debug("Initialization complete");
         }
