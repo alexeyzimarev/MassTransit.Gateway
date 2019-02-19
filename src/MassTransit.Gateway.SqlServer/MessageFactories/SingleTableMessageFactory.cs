@@ -3,7 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
-using MassTransit.Gateway.Dynamics;
+using MassTransit.Gateway.MessageBuilder;
 using MassTransit.Gateway.MessageFactories;
 using MassTransit.Gateway.SqlServer.Logging;
 
@@ -32,7 +32,7 @@ namespace MassTransit.Gateway.SqlServer.MessageFactories
 
             var schema = await DbSchemaReader.ReadTableSchema(_connectionFactory, _tableName).ConfigureAwait(false);
             _properties = schema.Where(x => x.Name.ToLower() != "rownumber").Select(FromDbColumnInfo).ToArray();
-            _messageType = MessageTypeProvider.BuildMessageType(new MessageTypeDefinition(_type, _properties));
+            _messageType = DynamicTypeBuilder.BuildMessageType(new MessageTypeDefinition(_type, _properties));
 
             Log.Debug("Initialization complete");
         }
@@ -40,7 +40,7 @@ namespace MassTransit.Gateway.SqlServer.MessageFactories
         public MessageEnvelope CreateMessage(DataRow row)
         {
             var properties = _properties.Select((x, i) => new PropertyValue(x.Name, row[x.Name]));
-            var message = MessageBuilder.CreateMessage(_messageType, properties);
+            var message = MessageBuilder.MessageBuilder.CreateMessage(_messageType, properties);
             return new MessageEnvelope(message, _messageType);
         }
 

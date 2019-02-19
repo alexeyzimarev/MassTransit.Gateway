@@ -1,18 +1,13 @@
 using System;
-using System.Collections.Concurrent;
-using System.Net;
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace MassTransit.Gateway.Dynamics
+namespace MassTransit.Gateway.MessageBuilder
 {
-    public static class MessageTypeProvider
+    public static class DynamicTypeBuilder
     {
         public static Type BuildMessageType(MessageTypeDefinition messageTypeDefinition)
         {
-            if (Cache.ContainsKey(messageTypeDefinition.ClassName))
-                return Cache[messageTypeDefinition.ClassName];
-
             var assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(
                 new AssemblyName(Guid.NewGuid().ToString()),
                 AssemblyBuilderAccess.Run);
@@ -26,12 +21,8 @@ namespace MassTransit.Gateway.Dynamics
             }
 
             var typeInfo = typeBuilder.CreateTypeInfo();
-            Cache[messageTypeDefinition.ClassName] = typeInfo;
             return typeInfo;
         }
-
-        public static Type TryGetType(string className) =>
-            Cache.ContainsKey(className) ? Cache[className] : null;
 
         private static void AddProperty(TypeBuilder typeBuilder, string propertyName, Type propertyType)
         {
@@ -71,8 +62,5 @@ namespace MassTransit.Gateway.Dynamics
             propertyBuilder.SetGetMethod(getterBuilder);
             propertyBuilder.SetSetMethod(setterBuilder);
         }
-
-        internal static readonly ConcurrentDictionary<string, Type> Cache =
-            new ConcurrentDictionary<string, Type>();
     }
 }

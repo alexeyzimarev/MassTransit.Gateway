@@ -1,15 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
-        <LangVersion>7.1</LangVersion>
-
-        <PackageId>MassTransit.Gateway.SqlServer</PackageId>
-        <Version>0.1.0</Version>
-        <Authors>Alexey Zimarev</Authors>
-        <PackageProjectUrl>https://github.com/alexeyzimarev/MassTransit.Gateway</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/alexeyzimarev/MassTransit.Gateway.git</RepositoryUrl>
-        <RepositoryType>git</RepositoryType>
         <Description>MS SQL Server to messaging gateway for MassTransit</Description>
     </PropertyGroup>
 
@@ -18,8 +9,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="LibLog" Version="5.0.2"/>
-        <PackageReference Include="System.Data.SqlClient" Version="4.5.1"/>
+        <PackageReference Include="LibLog" Version="5.0.6" />
+        <PackageReference Include="System.Data.SqlClient" Version="4.6.0"/>
     </ItemGroup>
 
 </Project>
