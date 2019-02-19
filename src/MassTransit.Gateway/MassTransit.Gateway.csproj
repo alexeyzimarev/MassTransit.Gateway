@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <Description>Legacy to messaging gateway for MassTransit, base package</Description>
+        <IsPackable>true</IsPackable>
     </PropertyGroup>
 
     <ItemGroup>

@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <Description>MS SQL Server to messaging gateway for MassTransit</Description>
+        <IsPackable>true</IsPackable>
     </PropertyGroup>
 
     <ItemGroup>
