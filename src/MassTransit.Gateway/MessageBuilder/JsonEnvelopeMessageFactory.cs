@@ -1,12 +1,11 @@
 using System;
-using MassTransit.Gateway.MessageFactories;
 using Newtonsoft.Json;
 
-namespace MassTransit.Gateway.Json
+namespace MassTransit.Gateway.MessageBuilder
 {
-    public class JsonEnvelopeMessageFactory : IMessageEnvelopeFactory
+    public static class JsonEnvelopeMessageFactory
     {
-        public MessageEnvelope CreateMessage(string className, string messageJson)
+        public static MessageEnvelope CreateMessage(string className, string messageJson)
         {
             if (className.IsNullOrEmpty())
                 throw new ArgumentNullException(nameof(className));
@@ -21,7 +20,5 @@ namespace MassTransit.Gateway.Json
                 JsonConvert.DeserializeObject(messageJson, messageType),
                 messageType);
         }
-
-        
     }
 }

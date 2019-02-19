@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>netcoreapp2.1</TargetFramework>
-        <LangVersion>7.1</LangVersion>
+        <TargetFramework>netcoreapp2.2</TargetFramework>
+        <LangVersion>latest</LangVersion>
 
         <Version>0.1.0</Version>
         <Authors>Alexey Zimarev</Authors>
@@ -15,12 +15,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\MassTransit.Gateway.SqlServer\MassTransit.Gateway.SqlServer.csproj" />
-        <ProjectReference Include="..\MassTransit.Gateway\MassTransit.Gateway.csproj" />
+        <ProjectReference Include="..\..\src\MassTransit.Gateway.SqlServer\MassTransit.Gateway.SqlServer.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="System.Data.SqlClient" Version="4.5.1" />
+        <PackageReference Include="System.Data.SqlClient" Version="4.6.0" />
     </ItemGroup>
 
 </Project>

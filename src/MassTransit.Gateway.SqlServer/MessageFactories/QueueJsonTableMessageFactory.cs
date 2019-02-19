@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
-using MassTransit.Gateway.Json;
+using MassTransit.Gateway.MessageBuilder;
 using MassTransit.Gateway.MessageFactories;
 using MassTransit.Gateway.SqlServer.Exceptions;
 using MassTransit.Gateway.SqlServer.Logging;
@@ -16,22 +16,22 @@ namespace MassTransit.Gateway.SqlServer.MessageFactories
         private readonly string _tableName;
         private readonly Func<SqlConnection> _connectionFactory;
         private readonly ColumnNames _columnNames;
-        private readonly IMessageEnvelopeFactory _messageEnvelopeFactory;
+        private readonly MessageEnvelopeFactory _envelopeFactory;
 
         private static readonly ILog Log = LogProvider.For<QueueJsonTableMessageFactory>();
 
         public QueueJsonTableMessageFactory(string tableName, Func<SqlConnection> connectionFactory) :
-            this(tableName, connectionFactory, new ColumnNames(), new JsonEnvelopeMessageFactory())
+            this(tableName, connectionFactory, new ColumnNames(), JsonEnvelopeMessageFactory.CreateMessage)
         {
         }
 
         public QueueJsonTableMessageFactory(string tableName, Func<SqlConnection> connectionFactory,
-            ColumnNames columnNames, IMessageEnvelopeFactory messageEnvelopeFactory)
+            ColumnNames columnNames, MessageEnvelopeFactory envelopeFactory)
         {
             _tableName = tableName;
             _connectionFactory = connectionFactory;
             _columnNames = columnNames;
-            _messageEnvelopeFactory = messageEnvelopeFactory;
+            _envelopeFactory = envelopeFactory;
         }
 
         public async Task Initialize()
@@ -56,7 +56,7 @@ namespace MassTransit.Gateway.SqlServer.MessageFactories
                     throw new InvalidOperationException($"Message type name {messageClassName} must include a namespace");
 
                 var payload = row[_columnNames.Payload].ToString();
-                return _messageEnvelopeFactory.CreateMessage(messageClassName, payload);
+                return _envelopeFactory(messageClassName, payload);
             }
             catch (Exception e)
             {
@@ -81,9 +81,9 @@ namespace MassTransit.Gateway.SqlServer.MessageFactories
 
         public class ColumnNames
         {
-            public string MessageType { get; set; }= "MessageType";
-            public string Timestamp { get; set; } = "Timestamp";
-            public string Payload { get; set; } = "Payload";
+            public string MessageType { get; }= "MessageType";
+            public string Timestamp { get; } = "Timestamp";
+            public string Payload { get; } = "Payload";
         }
     }
 }

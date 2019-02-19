@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace MassTransit.Gateway.Dynamics
+namespace MassTransit.Gateway.MessageBuilder
 {
     public static class MessageBuilder
     {

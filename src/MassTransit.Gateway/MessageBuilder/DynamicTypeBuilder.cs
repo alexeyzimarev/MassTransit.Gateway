@@ -2,7 +2,7 @@ using System;
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace MassTransit.Gateway.Dynamics
+namespace MassTransit.Gateway.MessageBuilder
 {
     public static class DynamicTypeBuilder
     {

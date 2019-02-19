@@ -1,6 +1,6 @@
 using System;
 
-namespace MassTransit.Gateway.Dynamics
+namespace MassTransit.Gateway.MessageBuilder
 {
     public class MessageTypeDefinition
     {
